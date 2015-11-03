@@ -31,5 +31,10 @@ public class Main {
 			// it probably means no database file is found
 			System.err.println(e.getMessage());
 		}
+		IWeatherView view = new SwingWeatherView();
+		WeatherModel model = new WeatherModel();
+		IWeatherLoader loader = new SqliteWeatherLoader();
+		IWeatherController ctrl = new WeatherController(model, view, loader);
+		view.run();
 	}
 }
