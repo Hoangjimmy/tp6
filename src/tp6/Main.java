@@ -13,16 +13,18 @@ public class Main {
 			// create a database connection
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);  // set timeout to 30 sec.
-
-			statement.executeUpdate("drop table if exists person");
-			statement.executeUpdate("create table person (id integer, name string)");
-			statement.executeUpdate("insert into person values(1, 'leo')");
-			statement.executeUpdate("insert into person values(2, 'yui')");
-			ResultSet rs = statement.executeQuery("select * from person");
+			statement.executeUpdate("drop table if exists WeatherInfo");
+			statement.executeUpdate("create table WeatherInfo (Name string Primary key, Temp double, TempMin double, TempMax double, humidity int)");
+			statement.executeUpdate("insert into WeatherInfo values(\"Paris\", 200,201,202,203)");
+			//statement.executeUpdate("insert into person values(2, 'yui')");
+			ResultSet rs = statement.executeQuery("select * from WeatherInfo");
 			while (rs.next()) {
 				// read the result set
-				System.out.println("name = " + rs.getString("name"));
-				System.out.println("id = " + rs.getInt("id"));
+				System.out.println("name = " + rs.getString("Name"));
+				System.out.println("Temp = " + rs.getInt("Temp"));
+				System.out.println("TempMin = " + rs.getInt("TempMin"));
+				System.out.println("TempMax = " + rs.getInt("TempMax"));
+				System.out.println("Humidity = " + rs.getInt("Humidity"));
 			}
 		} catch (SQLException e) {
 			// if the error message is "out of memory", 
