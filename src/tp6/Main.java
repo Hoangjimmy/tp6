@@ -33,7 +33,7 @@ public class Main {
 		}
 		IWeatherView view = new SwingWeatherView();
 		WeatherModel model = new WeatherModel();
-		IWeatherLoader loader = new SqliteWeatherLoader();
+		IWeatherDal loader = new SqliteWeatherDal();
 		IWeatherController ctrl = new WeatherController(model, view, loader);
 		view.run();
 	}

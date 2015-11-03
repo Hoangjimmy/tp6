@@ -1,6 +1,6 @@
 package tp6;
 
-class SqliteWeatherLoader implements IWeatherLoader {
+class SqliteWeatherDal implements IWeatherDal {
 
 	@Override
 	public WeatherInfo loadWeatherInfo(String city) {
