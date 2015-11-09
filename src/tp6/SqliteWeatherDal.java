@@ -106,7 +106,7 @@ class SqliteWeatherDal implements IWeatherDal {
         try {
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
-            long curr = now.getTime() - 172800000;
+            long curr = now.getTime() - 172800000;//48H
             statement.executeQuery("DELETE FROM WeatherInfo WHERE Timestamp <= \'" + curr + "';");
 
         } catch (SQLException ex) {
