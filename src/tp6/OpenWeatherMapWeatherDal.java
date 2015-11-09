@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class OpenWeatherMapWeatherDal implements IWeatherDal {
+public class OpenWeatherMapWeatherDal implements IWeatherLoadingDal {
 
 	@Override
 	public WeatherInfo loadWeatherInfo(String city) {
@@ -53,10 +53,5 @@ public class OpenWeatherMapWeatherDal implements IWeatherDal {
 		} catch (UnsupportedEncodingException ex) {
 				throw new RuntimeException("Unsupported encoding UTF-8.", ex);
 		}
-	}
-
-	@Override
-	public void storeWeatherInfo(WeatherInfo info) {
-		/* Nothing, one can't push to OpenWeatherMap */
 	}
 }
