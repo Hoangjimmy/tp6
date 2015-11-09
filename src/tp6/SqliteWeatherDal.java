@@ -51,27 +51,13 @@ class SqliteWeatherDal implements IWeatherLoadingStoringDal {
 	@Override
 	public void storeWeatherInfo(WeatherInfo info) {
 		try {
-			ResultSet rs = statement.executeQuery("SELECT * FROM WeatherInfo WHERE Name = \"" + info.name + "\";");
-			Calendar calendar = Calendar.getInstance();
-			Date now = calendar.getTime();
-			long curr = now.getTime();
-			if (!rs.next())
-				statement.execute("INSERT INTO WeatherInfo VALUES(\""
+			statement.execute("INSERT OR REPLACE INTO WeatherInfo VALUES(\""
 						+ info.name + "\", "
 						+ info.info.temp + ", "
 						+ info.info.minTemp + ", "
 						+ info.info.maxTemp + ", "
 						+ info.info.humidity + ", "
-						+ curr + ")");
-			else
-				statement.execute("UPDATE WeatherInfo SET "
-						//		+ "Name = \"" + info.name + "\","
-						+ "Temp = " + info.info.temp + ", "
-						+ "TempMin = " + info.info.minTemp + ", "
-						+ "TempMax = " + info.info.maxTemp + ", "
-						+ "Humidity = " + info.info.humidity + ", "
-						+ "Timestamp = " + curr + " WHERE Name = \"" + info.name + "\";"
-				);
+						+ Calendar.getInstance().getTime().getTime() + ")");
 		} catch (SQLException ex) {
 			throw new RuntimeException("SQLException while storing data for " + info.name + " : " + ex.getMessage(), ex);
 		}

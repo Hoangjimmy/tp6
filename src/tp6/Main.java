@@ -10,7 +10,7 @@ public class Main {
 		final IWeatherLoadingDal lDal = new OpenWeatherMapWeatherDal();
 		final IWeatherLoadingStoringDal sDal = new SqliteWeatherDal("jdbc:sqlite:sample.db");
 
-		IWeatherController ctrl = new WeatherController(model, view, lDal, sDal);
+		final IWeatherController ctrl = new WeatherController(model, view, lDal, sDal);
 		view.run();
 	}
 }
