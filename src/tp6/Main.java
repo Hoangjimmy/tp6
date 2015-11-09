@@ -16,7 +16,6 @@ public class Main {
             statement.executeUpdate("drop table if exists WeatherInfo");
             statement.executeUpdate("CREATE TABLE WeatherInfo (Name STRING PRIMARY KEY, Temp DOUBLE, TempMin DOUBLE, TempMax DOUBLE, Humidity INT)");
             statement.executeUpdate("insert into WeatherInfo values(\"Paris\", 200,201,202,203)");
-            //statement.executeUpdate("insert into person values(2, 'yui')");
             ResultSet rs = statement.executeQuery("select * from WeatherInfo");
             while (rs.next()) {
                 // read the result set

@@ -22,7 +22,7 @@ class SqliteWeatherDal implements IWeatherDal {
         WeatherInfo res = new WeatherInfo();
         try {
             ResultSet rs = this.statement.executeQuery("SELECT * FROM WeatherInfo WHERE Name = \"" + city + "\";");
-            if(!rs.next())throw new RuntimeException() ;
+            if(!rs.next())throw new RuntimeException("No database entry for " + city + ".");
 			
             res.name = rs.getString("Name");
             res.info.temp = rs.getDouble("Temp");
