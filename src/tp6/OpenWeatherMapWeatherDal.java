@@ -21,7 +21,7 @@ public class OpenWeatherMapWeatherDal implements IWeatherLoadingDal {
 		try {
 			
 			String urlRoot = "http://api.openweathermap.org/data/2.5/weather";
-			String appId = "bd82977b86bf27fb59a04b61b657fb6f";
+			String appId = "2de143494c0b295cca9337e1e96b00e0";
 			
 			String urlStr = String.format("%s?q=%s&appid=%s&units=metric", urlRoot, URLEncoder.encode(city, "UTF-8"), appId);
 			

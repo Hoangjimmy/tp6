@@ -31,28 +31,32 @@ public class WeatherController implements Observer, IWeatherController {
 
 	@Override
 	public void loadWeather(String city) {
-		WeatherInfo info;
+		WeatherInfo info = null;
+		Exception exc = null;
 		try {
-			info = _cacheDal.loadWeatherInfo(city);
+			try {
+				info = _cacheDal.loadWeatherInfo(city);
+			} catch (Exception ex) {
+				exc = ex;
+			}
 
 			if (info == null) {
-
 				info = _liveDal.loadWeatherInfo(city);
 
 				if (info == null)
-					throw new RuntimeException("Couldn't load weather.");
+					throw exc != null ? exc : new RuntimeException();
 			}
 		} catch (Exception ex) {
-			_view.notifyError(new RuntimeException("Couldn't load weather.", ex));
+			_view.notifyError(new RuntimeException("Couldn't load weather : " + ex.getMessage(), ex));
 			return;
 		}
-		
+
 		_model.setWeatherInfo(info);
 
 		try {
-		_cacheDal.storeWeatherInfo(info);
+			_cacheDal.storeWeatherInfo(info);
 		} catch (Exception ex) {
-			_view.notifyError(new RuntimeException("Couldn't cache weather.", ex));
+			_view.notifyError(new RuntimeException("Couldn't cache weather : " + ex.getMessage(), ex));
 		}
 	}
 }

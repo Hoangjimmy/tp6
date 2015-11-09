@@ -15,8 +15,8 @@ hs_err_pid*
 /build/
 /lib/
 *~
-build.xml
-manifest.mf
+/build.xml
+/manifest.mf
 /dist
 *.db
 

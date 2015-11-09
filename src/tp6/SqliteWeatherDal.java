@@ -17,15 +17,25 @@ class SqliteWeatherDal implements IWeatherLoadingStoringDal {
 		this.connection = DriverManager.getConnection(connectionString);
 		statement = connection.createStatement();
 		statement.setQueryTimeout(30);
+
+		statement.execute("CREATE TABLE IF NOT EXISTS WeatherInfo ("
+				+ "Name STRING PRIMARY KEY, "
+				+ "Temp DOUBLE, "
+				+ "TempMin DOUBLE, "
+				+ "TempMax DOUBLE, "
+				+ "Humidity DOUBLE, "
+				+ "Timestamp LONG"
+				+ ")"
+		);
 	}
 
 	@Override
 	public WeatherInfo loadWeatherInfo(String city) {
-		WeatherInfo res = new WeatherInfo();
 		try {
+			WeatherInfo res = new WeatherInfo();
 			ResultSet rs = this.statement.executeQuery("SELECT * FROM WeatherInfo WHERE Name = \"" + city + "\";");
-			if (!rs.next())
-				throw new RuntimeException("No database entry for " + city + ".");
+			if (!rs.next() || Calendar.getInstance().getTime().getTime() - rs.getLong("Timestamp") > 10 * 60 * 1000)
+				return null;
 
 			res.name = rs.getString("Name");
 			res.info.temp = rs.getDouble("Temp");
@@ -33,36 +43,34 @@ class SqliteWeatherDal implements IWeatherLoadingStoringDal {
 			res.info.maxTemp = rs.getDouble("TempMax");
 			res.info.humidity = rs.getInt("Humidity");
 			return res;
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+		} catch (SQLException ex) {
+			return null;
 		}
-
-		return res;
 	}
 
 	@Override
 	public void storeWeatherInfo(WeatherInfo info) {
 		try {
-			ResultSet rs = statement.executeQuery("SELECT * FROM WeatherInfo WHERE NAME = \"" + info.name + "\";");
+			ResultSet rs = statement.executeQuery("SELECT * FROM WeatherInfo WHERE Name = \"" + info.name + "\";");
 			Calendar calendar = Calendar.getInstance();
 			Date now = calendar.getTime();
 			long curr = now.getTime();
-			if (rs.wasNull())
-				statement.executeQuery("INSERT INTO WeatherInfo VALUES("
-						+ info.name + ","
-						+ info.info.temp + ","
-						+ info.info.minTemp + ","
-						+ info.info.maxTemp + ","
-						+ info.info.humidity + ","
+			if (!rs.next())
+				statement.execute("INSERT INTO WeatherInfo VALUES(\""
+						+ info.name + "\", "
+						+ info.info.temp + ", "
+						+ info.info.minTemp + ", "
+						+ info.info.maxTemp + ", "
+						+ info.info.humidity + ", "
 						+ curr + ")");
 			else
-				statement.executeQuery("UPDATE WeatherInfo SET "
-				//		+ "Name = \"" + info.name + "\","
-						+ "Temp = \"" + info.info.temp + "\","
-						+ "TempMin = \"" + info.info.minTemp + "\","
-						+ "TempMax = \"" + info.info.maxTemp + "\","
-						+ "Humidity = \"" + info.info.humidity + "\","
-						+ "Timestamp = \"" + curr + " WHERE NAME = \"" + info.name + "\";"
+				statement.execute("UPDATE WeatherInfo SET "
+						//		+ "Name = \"" + info.name + "\","
+						+ "Temp = " + info.info.temp + ", "
+						+ "TempMin = " + info.info.minTemp + ", "
+						+ "TempMax = " + info.info.maxTemp + ", "
+						+ "Humidity = " + info.info.humidity + ", "
+						+ "Timestamp = " + curr + " WHERE Name = \"" + info.name + "\";"
 				);
 		} catch (SQLException ex) {
 			throw new RuntimeException("SQLException while storing data for " + info.name + " : " + ex.getMessage(), ex);
@@ -96,18 +104,6 @@ class SqliteWeatherDal implements IWeatherLoadingStoringDal {
 			}
 		} catch (SQLException ex) {
 			throw new RuntimeException("SQLException while database requesting");
-		}
-	}
-
-	public void deleteOldData() {
-		try {
-			Calendar calendar = Calendar.getInstance();
-			Date now = calendar.getTime();
-			long curr = now.getTime() - 172800000; // 48H
-			statement.executeQuery("DELETE FROM WeatherInfo WHERE Timestamp <= \'" + curr + "';");
-
-		} catch (SQLException ex) {
-			throw new RuntimeException("SQLException while delete row from database");
 		}
 	}
 }
