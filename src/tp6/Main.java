@@ -34,6 +34,9 @@ public class Main {
 		IWeatherView view = new SwingWeatherView();
 		WeatherModel model = new WeatherModel();
 		IWeatherDal loader = new SqliteWeatherDal();
+                WeatherInfo ll;
+                ll=loader.loadWeatherInfo("Paris");
+                System.out.println(ll.toString());
 		IWeatherController ctrl = new WeatherController(model, view, loader);
 		view.run();
 	}
