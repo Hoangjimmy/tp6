@@ -21,14 +21,17 @@ class SqliteWeatherDal implements IWeatherDal {
     public WeatherInfo loadWeatherInfo(String city) {
         WeatherInfo res = new WeatherInfo();
         try {
-            ResultSet rs = this.statement.executeQuery("SELECT Name FROM WeatherInfo WHERE Name =\"" + city + "\";");
-            if(!rs.next())throw new RuntimeException() ;
-                   
-            res.name = city;
-            res.info.temp = rs.getDouble(2);
-            res.info.minTemp = rs.getDouble(3);
-            res.info.maxTemp = rs.getDouble(4);
-            res.info.humidity = rs.getInt(5);
+
+            ResultSet rs = this.statement.executeQuery("SELECT * FROM WeatherInfo WHERE Name = \"" + city + "\";");
+            if (!rs.next()) {
+                throw new RuntimeException("No database entry for " + city + ".");
+            }
+
+            res.name = rs.getString("Name");
+            res.info.temp = rs.getDouble("Temp");
+            res.info.minTemp = rs.getDouble("TempMin");
+            res.info.maxTemp = rs.getDouble("TempMax");
+            res.info.humidity = rs.getInt("Humidity");
             return res;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -39,6 +42,10 @@ class SqliteWeatherDal implements IWeatherDal {
 
     @Override
     public void storeWeatherInfo(WeatherInfo info) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            statement.executeQuery("INSERT INTO WeatherInfo VALUES(" + ")");
+        } catch (SQLException ex) {
+            throw new RuntimeException("SQLException while storing data for " + info.name + " : " + ex.getMessage(), ex);
+        }
     }
 }
