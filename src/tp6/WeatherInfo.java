@@ -33,9 +33,8 @@ public class WeatherInfo {
 
     @Override
     public String toString() {
-    StringBuilder res = new StringBuilder();
-    
-    res = res.append(name).append(" ").append(info.minTemp).append(info.maxTemp).append(info.humidity);
-    return res.toString();
+        StringBuilder res = new StringBuilder();
+        res = res.append(name).append(" ").append(info.minTemp).append(info.maxTemp).append(info.humidity);
+        return res.toString();
     }
 }
