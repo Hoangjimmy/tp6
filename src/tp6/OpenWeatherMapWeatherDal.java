@@ -57,6 +57,6 @@ public class OpenWeatherMapWeatherDal implements IWeatherDal {
 
 	@Override
 	public void storeWeatherInfo(WeatherInfo info) {
-		throw new RuntimeException("You cannot push data to OpenWeatherMap !");
+		/* Nothing, one can't push to OpenWeatherMap */
 	}
 }

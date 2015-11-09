@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 class SqliteWeatherDal implements IWeatherDal {
@@ -43,6 +45,10 @@ class SqliteWeatherDal implements IWeatherDal {
 	
 	@Override
 	public void storeWeatherInfo(WeatherInfo info) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		try {
+			statement.executeQuery("INSERT INTO WeatherInfo VALUES(" + ")");
+		} catch (SQLException ex) {
+			throw new RuntimeException("SQLException while storing data for " + info.name + " : " + ex.getMessage(), ex);
+		}
 	}
 }
