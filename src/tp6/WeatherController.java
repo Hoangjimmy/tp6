@@ -7,9 +7,9 @@ public class WeatherController implements Observer, IWeatherController {
 
 	private final WeatherModel _model;
 	private final IWeatherView _view;
-	private final IWeatherLoader _loader;
+	private final IWeatherDal _loader;
 	
-	public WeatherController(WeatherModel model, IWeatherView view, IWeatherLoader loader) {
+	public WeatherController(WeatherModel model, IWeatherView view, IWeatherDal loader) {
 		_model = model;
 		_view = view;
 		_loader = loader;

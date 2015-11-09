@@ -1,16 +1,18 @@
 package tp6;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-class SqliteWeatherLoader implements IWeatherLoader {
+
+class SqliteWeatherDal implements IWeatherDal {
 
     private Statement statement;
 
-    public SqliteWeatherLoader() {
+    public SqliteWeatherDal() {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);

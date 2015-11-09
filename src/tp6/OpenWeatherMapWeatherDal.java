@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class OpenWeatherMapWeatherLoader implements IWeatherLoader {
+public class OpenWeatherMapWeatherDal implements IWeatherDal {
 
 	@Override
 	public WeatherInfo loadWeatherInfo(String city) {

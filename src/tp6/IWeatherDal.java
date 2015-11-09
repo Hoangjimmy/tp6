@@ -1,5 +1,5 @@
 package tp6;
 
-public interface IWeatherLoader {
+public interface IWeatherDal {
 	WeatherInfo loadWeatherInfo(String city);
 }
