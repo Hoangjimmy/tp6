@@ -54,4 +54,9 @@ public class OpenWeatherMapWeatherDal implements IWeatherDal {
 				throw new RuntimeException("Unsupported encoding UTF-8.", ex);
 		}
 	}
+
+	@Override
+	public void storeWeatherInfo(WeatherInfo info) {
+		throw new RuntimeException("You cannot push data to OpenWeatherMap !");
+	}
 }

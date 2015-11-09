@@ -1,6 +1,6 @@
 package tp6;
 
-public class StubWeatherDal implements IWeatherDal {
+public abstract class StubWeatherDal implements IWeatherDal {
 
 	@Override
 	public WeatherInfo loadWeatherInfo(String city) {
