@@ -43,9 +43,47 @@ class SqliteWeatherDal implements IWeatherDal {
     @Override
     public void storeWeatherInfo(WeatherInfo info) {
         try {
-            statement.executeQuery("INSERT INTO WeatherInfo VALUES(" + ")");
+            statement.executeQuery("INSERT INTO WeatherInfo VALUES(" 
+                    +info.name+ ","
+                    +info.info.minTemp +"," 
+                    +info.info.maxTemp + ","
+                    +info.info.humidity +")");
         } catch (SQLException ex) {
             throw new RuntimeException("SQLException while storing data for " + info.name + " : " + ex.getMessage(), ex);
         }
+    }
+
+    public void sortWeatherInfoByCity() {
+
+        try {
+            ResultSet rs = statement.executeQuery("SELECT * FROM WeatherInfo ORDER BY Name ASC");
+            while (rs.next()) {
+                System.out.println("name = " + rs.getString("Name"));
+                System.out.println("Temp = " + rs.getInt("Temp"));
+                System.out.println("TempMin = " + rs.getInt("TempMin"));
+                System.out.println("TempMax = " + rs.getInt("TempMax"));
+                System.out.println("Humidity = " + rs.getInt("Humidity"));
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("SQLException while database requesting");
+        }
+
+    }
+    
+        public void sortWeatherInfoByTemp() {
+
+        try {
+            ResultSet rs = statement.executeQuery("SELECT * FROM WeatherInfo ORDER BY Temp DESC");
+            while (rs.next()) {
+                System.out.println("name = " + rs.getString("Name"));
+                System.out.println("Temp = " + rs.getInt("Temp"));
+                System.out.println("TempMin = " + rs.getInt("TempMin"));
+                System.out.println("TempMax = " + rs.getInt("TempMax"));
+                System.out.println("Humidity = " + rs.getInt("Humidity"));
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("SQLException while database requesting");
+        }
+
     }
 }
